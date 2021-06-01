@@ -1,0 +1,14 @@
+#VRML_OBJ R2021a utf8
+DEF supervisor Robot {
+  children [
+    DEF receiver Receiver {
+      channel 1
+    }
+    DEF emitter Emitter {
+      channel 1
+    }
+  ]
+  name "robot_supervisor"
+  controller "sup_resetter"
+  supervisor TRUE
+}

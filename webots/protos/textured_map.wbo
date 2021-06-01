@@ -1,0 +1,29 @@
+#VRML_OBJ R2021a utf8
+DEF line_map Solid {
+  translation 0.14 0.029795 -0.29
+  rotation 1 0 0 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 1 1 1
+          specularColor 1 1 0.498039
+        }
+        texture ImageTexture {
+          url [
+            "textures/line.png"
+          ]
+        }
+      }
+      geometry ElevationGrid {
+        xDimension 2
+        zDimension 2
+      }
+      castShadows FALSE
+    }
+  ]
+  boundingObject ElevationGrid {
+    xDimension 2
+    zDimension 2
+  }
+}

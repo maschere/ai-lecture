@@ -1,0 +1,8 @@
+{
+  "executionEnvironments": [
+    {
+      "root": ".",
+      "extraPaths": ["deepbots_example","sup_resetter","spawner","epuck_collector","genetic_collector"]
+    }
+  ]
+}

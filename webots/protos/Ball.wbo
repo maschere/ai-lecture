@@ -1,0 +1,5 @@
+#VRML_OBJ R2021a utf8
+Ball {
+  hidden linearVelocity_0 0 3.291431975152763e-06 0
+  translation 0 0.032413248398153634 0
+}
