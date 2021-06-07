@@ -34,6 +34,7 @@ class function_env:
     def step(self,selectedAction:int): #return nextSate, reward, done
         """simulate the environment for 1 "step" and return nextSate, reward"""
         #simulate our function environment...
+        old_val = f(self.x,self.y)
         if selectedAction == 0:
             self.x += 0.001
         if selectedAction == 1:
@@ -43,6 +44,7 @@ class function_env:
         if selectedAction == 3:
             self.y -= 0.001
         val = f(self.x,self.y)
+        #calculate reward and done based on function val
         reward = -0.1
         done = 0.0
         if val < 0.00591:
@@ -51,6 +53,8 @@ class function_env:
         elif val >= 100:
             reward = -5.0
             done = 1.0
+        else:
+            reward += (val - old_val)/100
         return (self.get_state(),reward,done)
     def reset(self):
         self.x = 0.9 + random.uniform(-0.05,0.05)
@@ -90,9 +94,11 @@ class DQN_Agent:
         self.target_q_net = build_mlp()
     def act(self, state, eps):
         if random.random() > eps:
-            state = torch.tensor(np.float32(state)).unsqueeze(0)
-            q_value = self.q_net.forward(state)
-            return int(q_value.argmax(1)[0])
+            with torch.no_grad():
+                state = torch.tensor(np.float32(state)).unsqueeze(0)
+                q_value = self.q_net.forward(state)
+                action = int(q_value.argmax(1)[0])
+            return action
         else:
             return random.randrange(4)
 
@@ -132,7 +138,7 @@ for episode in range(num_episodes):
     else:
         found.append(0.0)
 
-    if len(buffer) == buffer.maxlen:
+    if len(buffer) > batch_size:
         #compute loss and update q network
         states, actions, rewards, next_states, dones = buffer.sample(batch_size)
         states = torch.tensor(np.float32(states))
